@@ -1,71 +1,73 @@
 "use client";
 
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { useApp } from "@/context/AppContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
-import { Mountain } from "lucide-react";
+import { Mountain, Trees } from "lucide-react";
 
 export function WelcomeScreen() {
-  const { navigateTo, enterAsGuest } = useApp();
+  const { navigateTo } = useApp();
+  const { t } = useLanguage();
 
   return (
-    <div className="welcome-mockup">
-      <div className="welcome-mockup__bg">
-        <div className="welcome-mockup__art" />
-        <div className="welcome-mockup__overlay" />
+    <div className="welcome-simple">
+      <div className="welcome-simple__bg" aria-hidden>
+        <div className="welcome-simple__glow" />
+        <div className="welcome-simple__mountains" />
       </div>
 
-      <div className="welcome-mockup__logo">
-        <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/15 backdrop-blur-md ring-1 ring-white/25"
-        >
-          <Mountain size={40} className="text-white" strokeWidth={1.5} />
-        </motion.div>
-        <p className="welcome-mockup__logo-text">WEEKEND WARRIORS</p>
-        <p className="welcome-mockup__logo-sub">
-          More than a trip — It&apos;s your growth journey
+      <div className="welcome-simple__lang">
+        <LanguageSwitcher className="welcome-simple__lang-switcher" />
+      </div>
+
+      <header className="welcome-simple__brand">
+        <div className="welcome-simple__logo">
+          <Mountain size={36} strokeWidth={1.75} aria-hidden />
+          <span className="welcome-simple__logo-badge" aria-hidden>
+            <Trees size={14} strokeWidth={2.5} />
+          </span>
+        </div>
+
+        <h1 className="welcome-simple__name">
+          <span className="welcome-simple__name-line">{t("welcome.brandWeekend")}</span>
+          <span className="welcome-simple__name-line welcome-simple__name-line--gold">
+            {t("welcome.brandWarriors")}
+          </span>
+        </h1>
+
+        <p className="welcome-simple__tagline">
+          <span className="welcome-simple__tagline-rule" aria-hidden />
+          {t("welcome.tagline")}
+          <span className="welcome-simple__tagline-rule" aria-hidden />
         </p>
-      </div>
+      </header>
 
-      <div className="welcome-mockup__content">
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="welcome-mockup__title"
-        >
-          Chào mừng bạn đến với
-          <br />
-          <span className="text-soft-green">WEEKEND WARRIORS!</span>
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.12 }}
-          className="welcome-mockup__desc"
-        >
-          Hành trình 2 ngày 1 đêm
-          <br />
-          bắt đầu từ một bước nhỏ.
-        </motion.p>
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="welcome-simple__card"
+      >
+        <p className="welcome-simple__card-title">{t("welcome.panelTitle")}</p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.22 }}
-          className="welcome-mockup__actions mx-auto max-w-sm"
+        <button
+          type="button"
+          className="welcome-simple__btn welcome-simple__btn--primary"
+          onClick={() => navigateTo("login")}
         >
-          <button type="button" className="btn-mockup btn-mockup--primary" onClick={() => navigateTo("register")}>
-            Đăng ký
-          </button>
-          <button type="button" className="btn-mockup btn-mockup--outline" onClick={() => navigateTo("login")}>
-            Đăng nhập
-          </button>
-          <button type="button" className="welcome-mockup__skip" onClick={enterAsGuest}>
-            Bỏ qua · xem thử không cần tài khoản
-          </button>
-        </motion.div>
-      </div>
+          <Trees size={18} strokeWidth={2.5} aria-hidden />
+          {t("welcome.login")}
+        </button>
+
+        <button
+          type="button"
+          className="welcome-simple__btn welcome-simple__btn--ghost"
+          onClick={() => navigateTo("register")}
+        >
+          {t("welcome.register")}
+        </button>
+      </motion.div>
     </div>
   );
 }

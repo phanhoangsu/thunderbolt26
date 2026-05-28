@@ -12,12 +12,22 @@ import {
   YAxis,
 } from "recharts";
 
-export function SkillGrowthChart({ skills }: { skills: Skill[] }) {
+interface SkillGrowthChartProps {
+  skills: Skill[];
+  beforeLabel?: string;
+  afterLabel?: string;
+}
+
+export function SkillGrowthChart({
+  skills,
+  beforeLabel = "Before",
+  afterLabel = "After",
+}: SkillGrowthChartProps) {
   const data = skills.map((s) => ({
     name: s.label.length > 8 ? s.label.slice(0, 7) + "…" : s.label,
     fullName: s.label,
-    truoc: s.before,
-    sau: s.after,
+    before: s.before,
+    after: s.after,
   }));
 
   return (
@@ -30,15 +40,17 @@ export function SkillGrowthChart({ skills }: { skills: Skill[] }) {
           <Tooltip
             formatter={(value, name) => [
               `${value}`,
-              name === "truoc" ? "Trước" : "Sau",
+              name === "before" ? beforeLabel : afterLabel,
             ]}
             labelFormatter={(_, payload) =>
               payload?.[0]?.payload?.fullName ?? ""
             }
           />
-          <Legend formatter={(v) => (v === "truoc" ? "Trước" : "Sau")} />
-          <Bar dataKey="truoc" fill="#A8D5BA" radius={[4, 4, 0, 0]} />
-          <Bar dataKey="sau" fill="#2E7D32" radius={[4, 4, 0, 0]} />
+          <Legend
+            formatter={(v) => (v === "before" ? beforeLabel : afterLabel)}
+          />
+          <Bar dataKey="before" fill="#A8D5BA" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="after" fill="#2E7D32" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -38,34 +38,34 @@ export const growthSkills: Skill[] = [
 export const badges: Badge[] = [
   {
     id: "explorer",
-    name: "Explorer",
+    name: "Nhà Thám Hiểm",
     icon: "🧭",
     unlocked: true,
     description: "Bắt đầu hành trình",
   },
   {
     id: "team-player",
-    name: "Team Player",
+    name: "Người Chơi Nhóm",
     icon: "🤝",
     unlocked: true,
     description: "Làm việc nhóm tốt",
   },
   {
     id: "nature-lover",
-    name: "Nature Lover",
+    name: "Yêu Thiên Nhiên",
     icon: "🌿",
     unlocked: true,
     description: "Yêu thiên nhiên",
   },
-  { id: "brave-starter", name: "Brave Starter", icon: "⚡", unlocked: false },
-  { id: "problem-solver", name: "Problem Solver", icon: "🧩", unlocked: false },
-  { id: "camp-helper", name: "Camp Helper", icon: "🏕️", unlocked: false },
-  { id: "good-listener", name: "Good Listener", icon: "👂", unlocked: false },
-  { id: "young-leader", name: "Young Leader", icon: "⭐", unlocked: false },
-  { id: "time-master", name: "Time Master", icon: "⏰", unlocked: false },
+  { id: "brave-starter", name: "Khởi Đầu Dũng Cảm", icon: "⚡", unlocked: false },
+  { id: "problem-solver", name: "Giải Quyết Vấn Đề", icon: "🧩", unlocked: false },
+  { id: "camp-helper", name: "Người Giúp Trại", icon: "🏕️", unlocked: false },
+  { id: "good-listener", name: "Lắng Nghe Tốt", icon: "👂", unlocked: false },
+  { id: "young-leader", name: "Lãnh Đạo Trẻ", icon: "⭐", unlocked: false },
+  { id: "time-master", name: "Quản Lý Thời Gian", icon: "⏰", unlocked: false },
   {
     id: "real-life-warrior",
-    name: "Real-Life Warrior",
+    name: "Chiến Binh Thực Tế",
     icon: "🛡️",
     unlocked: false,
   },
@@ -74,7 +74,7 @@ export const badges: Badge[] = [
 export const checkpoints: Checkpoint[] = [
   {
     id: "start",
-    name: "Start Camp",
+    name: "Khởi Đầu",
     subtitle: "Check-in",
     day: 1,
     status: "completed",
@@ -82,8 +82,8 @@ export const checkpoints: Checkpoint[] = [
   },
   {
     id: "forest",
-    name: "Forest Point",
-    subtitle: "QR Mission",
+    name: "Điểm Rừng",
+    subtitle: "Nhiệm vụ QR",
     day: 1,
     status: "active",
     icon: "🌲",
@@ -91,51 +91,74 @@ export const checkpoints: Checkpoint[] = [
   },
   {
     id: "river",
-    name: "River Point",
-    subtitle: "Team Challenge",
+    name: "Điểm Sông",
+    subtitle: "Thử thách nhóm",
     day: 1,
     status: "completed",
     icon: "🌊",
   },
   {
+    id: "kitchen",
+    name: "Bếp Trại",
+    subtitle: "Nấu ăn nhóm",
+    day: 1,
+    status: "completed",
+    icon: "🍳",
+  },
+  {
     id: "sunset",
-    name: "Sunset Hill",
-    subtitle: "Reflection",
+    name: "Đồi Hoàng Hôn",
+    subtitle: "Suy ngẫm",
     day: 1,
     status: "locked",
     icon: "🌅",
   },
   {
-    id: "final",
-    name: "Final Camp",
-    subtitle: "Boss Challenge",
+    id: "sunrise",
+    name: "Bình Minh",
+    subtitle: "Thể dục & check-in",
     day: 2,
     status: "locked",
-    icon: "🔥",
+    icon: "🌄",
   },
-  { id: "checkin", name: "Check-in", day: 1, status: "completed", icon: "✅" },
   {
-    id: "team",
-    name: "Team Challenge",
-    day: 1,
-    status: "completed",
-    icon: "🤝",
+    id: "obstacle",
+    name: "Vượt Chướng Ngại",
+    subtitle: "Thử thách nhóm",
+    day: 2,
+    status: "locked",
+    icon: "🧗",
   },
-  { id: "qr", name: "QR Mission", day: 1, status: "locked", icon: "📱" },
   {
-    id: "reflection",
-    name: "Reflection Time",
+    id: "deep-forest",
+    name: "Rừng Sâu",
+    subtitle: "Nhiệm vụ QR",
+    day: 2,
+    status: "locked",
+    icon: "🌿",
+  },
+  {
+    id: "circle",
+    name: "Circle Time",
+    subtitle: "Chia sẻ nhóm",
     day: 2,
     status: "locked",
     icon: "💭",
   },
-  { id: "boss", name: "Boss Challenge", day: 2, status: "locked", icon: "🚩" },
+  {
+    id: "boss",
+    name: "Trại Cuối",
+    subtitle: "Thử thách Boss",
+    day: 2,
+    status: "locked",
+    icon: "🔥",
+  },
 ];
 
 export const forestMission: Mission = {
   id: "forest-point",
-  title: "Forest Point",
-  type: "QR Mission",
+  title: "Điểm Rừng",
+  type: "Nhiệm vụ QR",
   description: "Tìm 3 âm thanh của thiên nhiên và ghi lại.",
   requirements: [
     "Tìm 3 âm thanh khác nhau",
@@ -144,7 +167,7 @@ export const forestMission: Mission = {
     "Hoàn thành cùng đội của bạn",
   ],
   xpReward: 30,
-  badgeReward: "Nature Badge",
+  badgeReward: "Huy hiệu Thiên Nhiên",
   status: "pending",
 };
 
@@ -190,12 +213,12 @@ export const memories: Memory[] = [
 export const achievements: Achievement[] = [
   {
     id: "1",
-    text: "Hoàn thành nhiệm vụ Forest Point",
+    text: "Hoàn thành nhiệm vụ Điểm Rừng",
     xp: 30,
     date: "Hôm nay",
   },
   { id: "2", text: "Tham gia nấu ăn nhóm", xp: 20, date: "Hôm qua" },
-  { id: "3", text: "Giúp đồng đội", xp: 15, date: "Hôm qua" },
+  { id: "3", text: "Giúp đỡ đồng đội", xp: 15, date: "Hôm qua" },
 ];
 
 export const promiseExamples = [
@@ -207,4 +230,4 @@ export const promiseExamples = [
 ];
 
 export const coachNote =
-  "Hoàng Sử làm việc nhóm tốt và tự tin hơn trong các thử thách ngoài trời.";
+  "Hoàng Sử làm việc nhóm rất tốt và tự tin hơn rõ rệt trong các thử thách ngoài trời. Đây là tiến bộ thực sự đáng khen.";

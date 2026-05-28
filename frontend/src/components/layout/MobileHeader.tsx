@@ -1,29 +1,33 @@
 "use client";
 
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { useApp } from "@/context/AppContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { ScreenId } from "@/lib/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
-const extraMenu: { id: ScreenId; label: string; emoji: string }[] = [
-  { id: "memories", label: "Ký ức", emoji: "📸" },
-  { id: "parent", label: "Phụ huynh", emoji: "👨‍👩‍👦" },
-  { id: "growth", label: "Phát triển", emoji: "📊" },
-  { id: "promise", label: "Cam kết", emoji: "🌟" },
-];
-
 export function MobileHeader() {
   const { navigateTo } = useApp();
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
+
+  const extraMenu: { id: ScreenId; labelKey: string; emoji: string }[] = [
+    { id: "memories", labelKey: "navigation.memories", emoji: "📸" },
+    { id: "parent", labelKey: "navigation.parent", emoji: "👨‍👩‍👦" },
+    { id: "growth", labelKey: "navigation.growth", emoji: "📊" },
+    { id: "promise", labelKey: "navigation.promise", emoji: "🌟" },
+  ];
 
   return (
     <div className="mobile-header lg:hidden">
+      <LanguageSwitcher className="mr-auto" />
       <button
         type="button"
         onClick={() => setOpen(!open)}
         className="mobile-header__btn"
-        aria-label="Menu mở rộng"
+        aria-label={t("common.expandMenuAria")}
       >
         {open ? <X size={20} /> : <Menu size={20} />}
       </button>
@@ -54,7 +58,7 @@ export function MobileHeader() {
                   className="mobile-header__item"
                 >
                   <span>{item.emoji}</span>
-                  {item.label}
+                  {t(item.labelKey)}
                 </button>
               ))}
             </motion.div>

@@ -2,38 +2,31 @@
 
 import { RadarGrowthChart } from "@/components/charts/RadarGrowthChart";
 import { Card } from "@/components/ui/card";
-import { StatusBar } from "@/components/layout/StatusBar";
-import { growthSkills } from "@/lib/mock-data";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslatedData } from "@/lib/use-translated-data";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 
 export function GrowthDashboardScreen() {
-  const [feedback, setFeedback] = useState({
-    strongest: "Làm việc nhóm",
-    needsImprovement: "Giao tiếp",
-  });
-
-  useEffect(() => {
-    fetch("/api/growth")
-      .then((r) => r.json())
-      .then((d) => setFeedback(d))
-      .catch(() => {});
-  }, []);
+  const { t } = useLanguage();
+  const { growthSkills, growthFeedback } = useTranslatedData();
 
   return (
     <div className="screen-page">
-      <StatusBar />
       <div className="px-5 pb-6">
         <h1
           className="py-3 text-center text-lg font-extrabold text-forest"
           style={{ fontFamily: "var(--font-heading)" }}
         >
-          Sự phát triển của bạn
+          {t("growth.title")}
         </h1>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <Card>
-            <RadarGrowthChart skills={growthSkills} />
+            <RadarGrowthChart
+              skills={growthSkills}
+              beforeLabel={t("charts.before")}
+              afterLabel={t("charts.after")}
+            />
           </Card>
         </motion.div>
 
@@ -64,12 +57,12 @@ export function GrowthDashboardScreen() {
 
         <Card className="mt-4 bg-soft-green/20">
           <p className="text-sm">
-            <span className="font-bold text-forest">Kỹ năng mạnh nhất:</span>{" "}
-            {feedback.strongest}
+            <span className="font-bold text-forest">{t("growth.strongest")}</span>{" "}
+            {growthFeedback.strongest}
           </p>
           <p className="mt-2 text-sm">
-            <span className="font-bold text-forest">Cần cải thiện:</span>{" "}
-            {feedback.needsImprovement}
+            <span className="font-bold text-forest">{t("growth.needsImprovement")}</span>{" "}
+            {growthFeedback.needsImprovement}
           </p>
         </Card>
       </div>

@@ -39,15 +39,14 @@ interface AppContextValue extends AppState {
   badges: Badge[];
   apiLoading: boolean;
   isAuthenticated: boolean;
-  isGuest: boolean;
   authUser: AuthUser | null;
+  loginRequired: boolean;
   setScreen: (s: ScreenId) => void;
   navigateTo: (s: ScreenId, options?: { replace?: boolean }) => void;
   goBack: () => void;
   login: (email: string, password: string) => Promise<AuthResult>;
   register: (name: string, email: string, password: string) => Promise<AuthResult>;
   logout: () => Promise<void>;
-  enterAsGuest: () => void;
   startMission: () => void;
   submitMission: () => void;
   savePromise: (text: string) => void;
@@ -58,6 +57,8 @@ interface AppContextValue extends AppState {
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
+
+const AUTH_SCREENS: ScreenId[] = ["welcome", "login", "register"];
 
 const PROTECTED_SCREENS: ScreenId[] = [
   "home",
@@ -70,6 +71,10 @@ const PROTECTED_SCREENS: ScreenId[] = [
   "growth",
   "promise",
 ];
+
+function isProtectedScreen(s: ScreenId): boolean {
+  return PROTECTED_SCREENS.includes(s);
+}
 
 function applyUserToProfile(state: AppState, user: AuthUser): AppState {
   return {
@@ -89,7 +94,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [checkpoints, setCheckpoints] = useState<Checkpoint[]>(defaultCheckpoints);
   const [badges, setBadges] = useState<Badge[]>(defaultBadges);
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
-  const [isGuest, setIsGuest] = useState(false);
+  const [loginRequired, setLoginRequired] = useState(false);
   const [missionStarted, setMissionStarted] = useState(false);
   const [missionSubmitted, setMissionSubmitted] = useState(false);
   const [showXpToast, setShowXpToast] = useState(false);
@@ -161,7 +166,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     };
     saveSession(session);
     setAuthUser(user);
-    setIsGuest(false);
+    setLoginRequired(false);
     setState((prev) => applyUserToProfile(prev, user));
   }, []);
 
@@ -238,30 +243,32 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
     clearSession();
     setAuthUser(null);
-    setIsGuest(false);
+    setLoginRequired(false);
     setScreenHistory([]);
     setScreen("welcome");
     setMissionStarted(false);
     setMissionSubmitted(false);
   }, []);
 
-  const enterAsGuest = useCallback(() => {
-    setIsGuest(true);
-    setAuthUser(null);
-    clearSession();
-    setScreenHistory([]);
-    setScreen("home");
-  }, []);
+  useEffect(() => {
+    if (!hydrated || authUser) return;
+    if (isProtectedScreen(screen)) {
+      setLoginRequired(true);
+      setScreen("login");
+    }
+  }, [hydrated, authUser, screen]);
 
   const navigateTo = useCallback(
     (s: ScreenId, options?: { replace?: boolean }) => {
-      if (
-        PROTECTED_SCREENS.includes(s) &&
-        !authUser &&
-        !isGuest
-      ) {
+      if (isProtectedScreen(s) && !authUser) {
+        setLoginRequired(true);
+        setScreenHistory([]);
         setScreen("login");
         return;
+      }
+
+      if (AUTH_SCREENS.includes(s)) {
+        setLoginRequired(false);
       }
 
       if (!options?.replace) {
@@ -271,21 +278,31 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
       setScreen(s);
       if (typeof window !== "undefined") {
-        document.querySelector(".screen")?.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        // Also scroll the inner content container
+        document.querySelector(".app-main__content")?.scrollTo({ top: 0, behavior: "smooth" });
+        document.querySelector(".screen-page")?.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
-    [screen, authUser, isGuest]
+    [screen, authUser]
   );
 
   const goBack = useCallback(() => {
     setScreenHistory((h) => {
       const next = [...h];
       const prev = next.pop();
-      if (prev) setScreen(prev);
-      else setScreen(isAuthenticated || isGuest ? "home" : "welcome");
+      if (prev) {
+        if (isProtectedScreen(prev) && !authUser) {
+          setScreen("welcome");
+        } else {
+          setScreen(prev);
+        }
+      } else {
+        setScreen(isAuthenticated ? "home" : "welcome");
+      }
       return next;
     });
-  }, [isAuthenticated, isGuest]);
+  }, [isAuthenticated, authUser]);
 
   const startMission = () => setMissionStarted(true);
 
@@ -364,15 +381,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
         badges,
         apiLoading,
         isAuthenticated,
-        isGuest,
         authUser,
+        loginRequired,
         setScreen,
         navigateTo,
         goBack,
         login,
         register,
         logout,
-        enterAsGuest,
         startMission,
         submitMission,
         savePromise,

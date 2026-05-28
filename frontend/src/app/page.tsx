@@ -25,9 +25,12 @@ const FULL_WIDTH_SCREENS: ScreenId[] = ["welcome", "login", "register"];
 const NO_NAV: ScreenId[] = [...FULL_WIDTH_SCREENS, "promise"];
 
 function AppShell() {
-  const { screen, navigateTo, showXpToast } = useApp();
-  const isFullWidth = FULL_WIDTH_SCREENS.includes(screen);
-  const showNav = !NO_NAV.includes(screen);
+  const { screen, navigateTo, showXpToast, isAuthenticated } = useApp();
+  const isAuthScreen = FULL_WIDTH_SCREENS.includes(screen);
+  const isFullWidth = isAuthScreen || (!isAuthenticated && !isAuthScreen);
+  const showNav = isAuthenticated && !NO_NAV.includes(screen);
+  const effectiveScreen =
+    !isAuthenticated && !isAuthScreen ? "login" : screen;
 
   const screens: Record<ScreenId, ComponentType> = {
     welcome: WelcomeScreen,
@@ -44,7 +47,7 @@ function AppShell() {
     promise: FuturePromiseScreen,
   };
 
-  const Active = screens[screen] ?? WelcomeScreen;
+  const Active = screens[effectiveScreen] ?? WelcomeScreen;
 
   if (isFullWidth) {
     return (

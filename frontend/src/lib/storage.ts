@@ -10,7 +10,7 @@ export const defaultAppState: AppState = {
   badgesUnlocked: ["explorer", "team-player", "nature-lover"],
   teamActivities: 4,
   reflection:
-    "Tôi học được rằng làm việc nhóm giúp tôi mạnh mẽ hơn.",
+    "I learned that teamwork makes me stronger.",
 };
 
 function migrateProfile(state: AppState): AppState {

@@ -1,19 +1,27 @@
 "use client";
 
 import { PageHeader } from "@/components/layout/PageHeader";
-import { achievements } from "@/lib/mock-data";
 import { useApp } from "@/context/AppContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslatedData } from "@/lib/use-translated-data";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Lock, Trophy } from "lucide-react";
 
 export function BadgesScreen() {
-  const { totalXp, badges } = useApp();
-  const unlocked = badges.filter((b) => b.unlocked).length;
+  const { totalXp, badges: appBadges } = useApp();
+  const { t } = useLanguage();
+  const { badges, achievements } = useTranslatedData();
+
+  const mergedBadges = appBadges.map((b) => {
+    const translated = badges.find((tb) => tb.id === b.id);
+    return translated ? { ...b, name: translated.name } : b;
+  });
+  const unlocked = mergedBadges.filter((b) => b.unlocked).length;
 
   return (
     <div className="screen-page">
-      <PageHeader title="Thành tích của bạn" subtitle="XP & huy hiệu" showBack={false} />
+      <PageHeader title={t("badges.title")} subtitle={t("badges.subtitle")} showBack={false} />
 
       <div className="flex flex-col items-center lg:flex-row lg:items-start lg:gap-10">
         <motion.div
@@ -24,16 +32,16 @@ export function BadgesScreen() {
           <div className="badges-mockup__xp-inner">
             <Trophy size={28} className="mx-auto mb-2 text-gold opacity-80" />
             <span className="badges-mockup__xp-value">{totalXp}</span>
-            <span className="badges-mockup__xp-sub">Total XP</span>
+            <span className="badges-mockup__xp-sub">{t("badges.totalXp")}</span>
           </div>
         </motion.div>
 
         <div className="w-full flex-1 mt-8 lg:mt-0">
           <p className="pro-section-title mt-0">
-            Huy hiệu · {unlocked}/{badges.length} đã mở
+            {t("badges.unlocked", { count: unlocked, total: mergedBadges.length })}
           </p>
           <div className="badges-mockup__grid">
-            {badges.map((b, i) => (
+            {mergedBadges.map((b, i) => (
               <motion.div
                 key={b.id}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -49,7 +57,7 @@ export function BadgesScreen() {
         </div>
       </div>
 
-      <h2 className="pro-section-title">Hoạt động gần đây</h2>
+      <h2 className="pro-section-title">{t("badges.recentActivity")}</h2>
       <div className="space-y-3 max-w-2xl">
         {achievements.map((a, i) => (
           <motion.div

@@ -2,30 +2,29 @@
 
 import { PageHeader } from "@/components/layout/PageHeader";
 import { useApp } from "@/context/AppContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { translateProfileSkills } from "@/lib/use-translated-data";
 import { motion } from "framer-motion";
 import { CheckCircle2, LogOut, Mail, Shield } from "lucide-react";
 
 export function ProfileScreen() {
-  const { profile, authUser, isGuest, logout, navigateTo } = useApp();
+  const { profile, authUser, logout, navigateTo } = useApp();
+  const { t } = useLanguage();
   const xpPercent = Math.round((profile.xp / profile.xpMax) * 100);
+  const skills = translateProfileSkills(profile.skills, t).map((s) => ({
+    label: s.label,
+    value: s.before,
+  }));
 
-  const skills = [
-    { label: "Tự tin", value: 40 },
-    { label: "Giao tiếp", value: 35 },
-    { label: "Làm việc nhóm", value: 30 },
-    { label: "Giải quyết vấn đề", value: 45 },
-    { label: "Sáng tạo", value: 50 },
-  ];
-
-  if (!authUser && !isGuest) {
+  if (!authUser) {
     return (
       <div className="screen-page">
-        <PageHeader title="Hồ sơ của bạn" showBack={false} />
+        <PageHeader title={t("profile.title")} showBack={false} />
         <div className="pro-card auth-guest-prompt max-w-md mx-auto text-center">
           <Shield size={40} className="mx-auto mb-4 text-medium-green" />
-          <p className="text-[#4a5d52] mb-6">Vui lòng đăng nhập để xem hồ sơ cá nhân.</p>
+          <p className="text-[#4a5d52] mb-6">{t("profile.loginPrompt")}</p>
           <button type="button" className="btn-mockup btn-mockup--primary" onClick={() => navigateTo("login")}>
-            Đăng nhập
+            {t("auth.login")}
           </button>
         </div>
       </div>
@@ -34,14 +33,7 @@ export function ProfileScreen() {
 
   return (
     <div className="screen-page">
-      <PageHeader title="Hồ sơ của bạn" subtitle="RPG Profile · Tiến độ cá nhân" showBack={false} />
-
-      {isGuest && (
-        <div className="auth-guest-banner mx-auto max-w-3xl mb-6">
-          Bạn đang xem thử ·{" "}
-          <button type="button" onClick={() => navigateTo("login")}>Đăng nhập</button>
-        </div>
-      )}
+      <PageHeader title={t("profile.title")} subtitle={t("profile.subtitle")} showBack={false} />
 
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -65,7 +57,7 @@ export function ProfileScreen() {
 
         <div className="pro-xp-bar">
           <div className="pro-xp-bar__head">
-            <span className="text-forest">Kinh nghiệm</span>
+            <span className="text-forest">{t("profile.experience")}</span>
             <span className="text-medium-green">
               {profile.xp} / {profile.xpMax} XP
             </span>
@@ -89,7 +81,7 @@ export function ProfileScreen() {
           className="pro-card pro-card--flat"
         >
           <h3 className="text-base font-extrabold text-forest mb-4" style={{ fontFamily: "var(--font-heading)" }}>
-            Chỉ số hiện tại
+            {t("profile.currentStats")}
           </h3>
           {skills.map((s, i) => (
             <div key={s.label} className="pro-skill-row">
@@ -118,25 +110,20 @@ export function ProfileScreen() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-soft-green/30">
                 <CheckCircle2 size={20} className="text-medium-green" />
               </div>
-              <span className="font-extrabold text-forest">Nhiệm vụ cá nhân</span>
+              <span className="font-extrabold text-forest">{t("profile.personalMission")}</span>
             </div>
             <p className="text-sm leading-relaxed text-[#4a5d52]">
-              Làm quen và nói chuyện với 3 người bạn mới
+              {t("mock.personalMission")}
             </p>
           </motion.div>
 
           {authUser && (
             <button type="button" className="btn-logout w-full" onClick={() => logout()}>
               <LogOut size={18} />
-              Đăng xuất
+              {t("auth.logout")}
             </button>
           )}
 
-          {isGuest && (
-            <button type="button" className="btn-mockup btn-mockup--primary w-full" onClick={() => navigateTo("register")}>
-              Tạo tài khoản
-            </button>
-          )}
         </div>
       </div>
     </div>

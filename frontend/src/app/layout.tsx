@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./pro-theme.css";
+import { ClientWrapper } from "./client-wrapper";
 
 export const metadata: Metadata = {
-  title: "Weekend Warriors — Hành trình trưởng thành",
+  title: "Weekend Warriors — Your Growth Journey",
   description:
-    "Ứng dụng đồng hành chương trình 2 ngày 1 đêm giúp thanh thiếu niên theo dõi hành trình, phát triển kỹ năng và lưu ký ức.",
+    "Companion app for a 2-day, 1-night camp program helping teens track their journey, build skills, and save memories.",
 };
 
 export const viewport: Viewport = {
@@ -21,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -34,7 +35,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ClientWrapper>{children}</ClientWrapper>
+      </body>
     </html>
   );
 }

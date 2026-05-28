@@ -1,36 +1,56 @@
 "use client";
 
-import { PageHeader } from "@/components/layout/PageHeader";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { Input } from "@/components/ui/input";
 import { useApp } from "@/context/AppContext";
-import { DEMO_USERS } from "@/lib/auth";
+import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
-import { Loader2, LogIn, Mountain } from "lucide-react";
+import { Eye, EyeOff, Loader2, LogIn, Mountain } from "lucide-react";
 import { FormEvent, useState } from "react";
 
+function mapAuthError(message: string | undefined, t: (k: string) => string): string {
+  if (!message) return t("auth.loginFailed");
+  if (message.includes("6 ký tự") || message.includes("6 characters")) return t("auth.passwordMinError");
+  if (message.includes("Email đã") || message.includes("already")) return t("auth.emailTaken");
+  if (message.includes("server") || message.includes("Kết nối")) return t("auth.serverError");
+  return message;
+}
+
 export function LoginScreen() {
-  const { login, navigateTo } = useApp();
-  const [email, setEmail] = useState("hoangsu@camp.vn");
+  const { login, navigateTo, loginRequired } = useApp();
+  const { t } = useLanguage();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (password.length < 6) {
+      setError(t("auth.passwordMinError"));
+      return;
+    }
+
     setLoading(true);
     const result = await login(email, password);
     setLoading(false);
-    if (!result.success) setError(result.message ?? "Đăng nhập thất bại.");
+    if (!result.success) setError(mapAuthError(result.message, t));
   };
 
   return (
     <div
-      className="flex min-h-screen items-center justify-center p-6"
+      className="relative flex min-h-screen items-center justify-center p-6"
       style={{
         background: "linear-gradient(165deg, #082a20, #0b3d2e 50%, #134a38)",
       }}
     >
+      <div className="absolute right-4 top-4 z-10">
+        <LanguageSwitcher />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -42,9 +62,9 @@ export function LoginScreen() {
             className="text-2xl font-black tracking-wide"
             style={{ fontFamily: "var(--font-heading)" }}
           >
-            WEEKEND WARRIORS
+            {t("common.appName")}
           </h1>
-          <p className="mt-2 text-sm text-soft-green/90">Đăng nhập tài khoản</p>
+          <p className="mt-2 text-sm text-soft-green/90">{t("auth.loginSubtitle")}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -52,29 +72,43 @@ export function LoginScreen() {
             <LogIn size={28} className="text-forest" />
           </div>
           <p className="auth-form__hint">
-            Tiếp tục hành trình trưởng thành của bạn
+            {loginRequired ? t("auth.loginRequired") : t("auth.loginHint")}
           </p>
 
           <label className="auth-label">
-            Email
+            {t("auth.email")}
             <Input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
+              placeholder={t("auth.emailPlaceholder")}
             />
           </label>
           <label className="auth-label">
-            Mật khẩu
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-              placeholder="••••••"
-            />
+            {t("auth.password")}
+            <div className="relative">
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                placeholder="••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-forest transition-colors"
+                aria-label={showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+            {password && password.length < 6 && (
+              <p className="text-xs text-red-500 mt-1">{t("auth.passwordMin")}</p>
+            )}
           </label>
 
           {error && <p className="auth-error">{error}</p>}
@@ -86,37 +120,19 @@ export function LoginScreen() {
           >
             {loading ? (
               <>
-                <Loader2 size={18} className="inline animate-spin" /> Đang đăng
-                nhập...
+                <Loader2 size={18} className="inline animate-spin" /> {t("auth.loggingIn")}
               </>
             ) : (
-              "Đăng nhập"
+              t("auth.login")
             )}
           </button>
 
           <p className="auth-switch">
-            Chưa có tài khoản?{" "}
+            {t("auth.noAccount")}{" "}
             <button type="button" onClick={() => navigateTo("register")}>
-              Đăng ký ngay
+              {t("auth.registerNow")}
             </button>
           </p>
-
-          <div className="auth-demo">
-            <p className="auth-demo__title">Tài khoản demo — nhấn để điền</p>
-            {DEMO_USERS.map((u) => (
-              <button
-                key={u.id}
-                type="button"
-                className="auth-demo__btn"
-                onClick={() => {
-                  setEmail(u.email);
-                  setPassword(u.password);
-                }}
-              >
-                {u.email}
-              </button>
-            ))}
-          </div>
         </form>
 
         <button
@@ -124,7 +140,7 @@ export function LoginScreen() {
           onClick={() => navigateTo("welcome")}
           className="mt-6 w-full text-center text-sm text-white/60 hover:text-white"
         >
-          ← Quay lại
+          ← {t("common.back")}
         </button>
       </motion.div>
     </div>

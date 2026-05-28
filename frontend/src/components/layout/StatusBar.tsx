@@ -8,7 +8,7 @@ export function StatusBar({ light = false }: { light?: boolean }) {
     <div
       className={cn(
         "flex items-center justify-between px-5 py-2 text-sm font-semibold",
-        light ? "text-white" : "text-dark"
+        light ? "text-white" : "text-dark",
       )}
     >
       <span>9:41</span>

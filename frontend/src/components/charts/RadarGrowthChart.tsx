@@ -11,11 +11,21 @@ import {
   Tooltip,
 } from "recharts";
 
-export function RadarGrowthChart({ skills }: { skills: Skill[] }) {
+interface RadarGrowthChartProps {
+  skills: Skill[];
+  beforeLabel?: string;
+  afterLabel?: string;
+}
+
+export function RadarGrowthChart({
+  skills,
+  beforeLabel = "Before",
+  afterLabel = "After",
+}: RadarGrowthChartProps) {
   const data = skills.map((s) => ({
     skill: s.label.length > 6 ? s.label.slice(0, 5) + "." : s.label,
-    sau: s.after,
-    truoc: s.before,
+    after: s.after,
+    before: s.before,
   }));
 
   return (
@@ -26,15 +36,15 @@ export function RadarGrowthChart({ skills }: { skills: Skill[] }) {
           <PolarAngleAxis dataKey="skill" tick={{ fontSize: 10, fill: "#0B3D2E" }} />
           <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 9 }} />
           <Radar
-            name="Sau"
-            dataKey="sau"
+            name={afterLabel}
+            dataKey="after"
             stroke="#2E7D32"
             fill="#2E7D32"
             fillOpacity={0.35}
           />
           <Radar
-            name="Trước"
-            dataKey="truoc"
+            name={beforeLabel}
+            dataKey="before"
             stroke="#A8D5BA"
             fill="#A8D5BA"
             fillOpacity={0.2}

@@ -4,7 +4,7 @@ export const DEMO_USERS: StoredUser[] = [
   {
     id: "demo-1",
     email: "hoangsu@camp.vn",
-    password: "123456",
+    password: "111111",
     name: "Hoàng Sử",
     avatar: "HS",
   },
