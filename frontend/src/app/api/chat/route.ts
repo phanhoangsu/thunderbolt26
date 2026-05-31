@@ -7,11 +7,15 @@ export interface ChatMessage {
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.GROQ_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY?.trim();
 
   if (!apiKey) {
     return NextResponse.json(
-      { error: "Chưa cấu hình GROQ_API_KEY trên server." },
+      {
+        error:
+          "Chưa cấu hình GROQ_API_KEY trên Vercel (Settings → Environment Variables → Production).",
+        code: "MISSING_API_KEY",
+      },
       { status: 500 },
     );
   }
@@ -52,7 +56,7 @@ export async function POST(request: NextRequest) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
+          model: "llama-3.1-8b-instant",
           messages: [
             {
               role: "system",
@@ -64,16 +68,49 @@ export async function POST(request: NextRequest) {
             })),
           ],
           temperature: 0.8,
-          max_tokens: 2048,
+          max_tokens: 1024,
         }),
       },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Groq API error:", errorText);
+      console.error("Groq API error:", response.status, errorText);
+
+      if (response.status === 401 || response.status === 403) {
+        return NextResponse.json(
+          {
+            error:
+              language === "en"
+                ? "Invalid GROQ_API_KEY on server. Update it in Vercel → Settings → Environment Variables → Production, then Redeploy."
+                : "GROQ_API_KEY trên Vercel không hợp lệ. Vào Vercel → Settings → Environment Variables → Production, cập nhật key mới rồi Redeploy.",
+            code: "INVALID_API_KEY",
+          },
+          { status: 502 },
+        );
+      }
+
+      if (response.status === 429) {
+        return NextResponse.json(
+          {
+            error:
+              language === "en"
+                ? "Groq AI daily limit reached. Wait ~1 hour or upgrade at console.groq.com. Try again later."
+                : "Groq AI đã hết quota hôm nay. Đợi ~1 giờ hoặc nâng cấp tại console.groq.com rồi thử lại.",
+            code: "RATE_LIMIT",
+          },
+          { status: 502 },
+        );
+      }
+
       return NextResponse.json(
-        { error: "Không thể kết nối WEEKEND WARRIORS. Vui lòng thử lại sau." },
+        {
+          error:
+            language === "en"
+              ? "Could not connect to AI service. Check GROQ_API_KEY on Vercel and Redeploy."
+              : "Không kết nối được AI. Kiểm tra GROQ_API_KEY trên Vercel (Production) rồi Redeploy.",
+          code: "GROQ_ERROR",
+        },
         { status: 502 },
       );
     }
