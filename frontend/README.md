@@ -131,6 +131,21 @@ GROQ_API_KEY=your_groq_api_key_here
 
 Lấy API key tại [console.groq.com](https://console.groq.com). **Không commit** file `.env.local` lên git.
 
+### Thêm trên Vercel (bắt buộc để deploy + chatbot chạy)
+
+Vào project → **Settings** → **Environment Variables** → **Add Environment Variable**
+
+| Ô | Điền |
+|---|------|
+| **Key** | `GROQ_API_KEY` |
+| **Value** | Dán API key từ Groq (bắt đầu bằng `gsk_...`) |
+| **Environments** | Chọn **Production** + **Preview** + **Development** (quan trọng — không chỉ Development!) |
+| **Sensitive** | Bật nếu deploy Production/Preview (ẩn key trên dashboard) |
+
+Bấm **Save** → vào **Deployments** → **Redeploy** deployment mới nhất.
+
+> ⚠️ Nếu chỉ tick **Development**, site live sẽ báo lỗi: *"Chưa cấu hình GROQ_API_KEY trên server."*
+
 ---
 
 ## Tech stack
