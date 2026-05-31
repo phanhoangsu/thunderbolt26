@@ -27,7 +27,17 @@ const translations = { en, vi };
 
 const STORAGE_KEY = "ww-language-v2";
 
+<<<<<<< HEAD
 const DEFAULT_LANGUAGE: Language = "vi";
+=======
+const DEFAULT_LANGUAGE: Language = "en";
+
+function readStoredLanguage(): Language {
+  if (typeof window === "undefined") return DEFAULT_LANGUAGE;
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved === "en" || saved === "vi" ? saved : DEFAULT_LANGUAGE;
+}
+>>>>>>> 650f2e54aafb60c5c0625e97360007503946210c
 
 const getNestedTranslation = (obj: Record<string, unknown>, path: string): string => {
   const value = path.split(".").reduce<unknown>((current, part) => {
@@ -40,6 +50,7 @@ const getNestedTranslation = (obj: Record<string, unknown>, path: string): strin
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+<<<<<<< HEAD
   const [language, setLanguageState] = useState<Language>(DEFAULT_LANGUAGE);
   const [mounted, setMounted] = useState(false);
 
@@ -62,6 +73,17 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (typeof window !== "undefined") {
       localStorage.setItem(STORAGE_KEY, lang);
     }
+=======
+  const [language, setLanguageState] = useState<Language>(() => readStoredLanguage());
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const setLanguage = useCallback((lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem(STORAGE_KEY, lang);
+>>>>>>> 650f2e54aafb60c5c0625e97360007503946210c
   }, []);
 
   const t = useCallback(
