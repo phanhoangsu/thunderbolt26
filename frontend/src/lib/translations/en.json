@@ -265,5 +265,25 @@
       "today": "Today",
       "yesterday": "Yesterday"
     }
+  },
+  "chat": {
+    "title": "WEEKEND WARRIORS",
+    "subtitle": "App & camp assistant 🏕️",
+    "dialogAria": "Weekend Warriors Chat",
+    "closeAria": "Close chat",
+    "openAria": "Open Weekend Warriors",
+    "closeFabAria": "Close Weekend Warriors",
+    "sendAria": "Send message",
+    "welcome": "Hey there! 🏕️ I'm **WEEKEND WARRIORS** — the AI assistant for the 2-day, 1-night camp app!\n\nI can help you with:\n• 📱 **How to use the app** (XP, missions, badges, journey...)\n• 🗺️ **Trip planning** for 2D1N camps (itinerary, team building, budget)\n\nWhat do you need help with? 🎒✨",
+    "typing": "WEEKEND WARRIORS is planning...",
+    "placeholder": "Ask about itinerary, food, team building...",
+    "sendError": "Could not send message.",
+    "genericError": "Something went wrong. Please try again!",
+    "quickPrompts": {
+      "guide": "How to use the app 📱",
+      "xp": "How do I earn XP? 🎯",
+      "places": "Suggest 3 places near Hanoi 🌲",
+      "games": "Fun team building games 🎮"
+    }
   }
 }

@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: { messages?: ChatMessage[] };
+  let body: { messages?: ChatMessage[]; language?: string };
 
   try {
     body = await request.json();
@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
   }
 
   const messages = body.messages;
+  const language = body.language === "en" ? "en" : "vi";
 
   if (!Array.isArray(messages) || messages.length === 0) {
     return NextResponse.json(
@@ -35,6 +36,11 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
+
+  const languageInstruction =
+    language === "en"
+      ? "\n\nIMPORTANT: Always reply in English."
+      : "\n\nQUAN TRỌNG: Luôn trả lời bằng tiếng Việt.";
 
   try {
     const response = await fetch(
@@ -48,7 +54,10 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           model: "llama-3.3-70b-versatile",
           messages: [
-            { role: "system", content: EVENT_MASTER_SYSTEM_PROMPT },
+            {
+              role: "system",
+              content: EVENT_MASTER_SYSTEM_PROMPT + languageInstruction,
+            },
             ...messages.map((message) => ({
               role: message.role,
               content: message.content,
@@ -64,7 +73,7 @@ export async function POST(request: NextRequest) {
       const errorText = await response.text();
       console.error("Groq API error:", errorText);
       return NextResponse.json(
-        { error: "Không thể kết nối WEKEND WARRIORS. Vui lòng thử lại sau." },
+        { error: "Không thể kết nối WEEKEND WARRIORS. Vui lòng thử lại sau." },
         { status: 502 },
       );
     }

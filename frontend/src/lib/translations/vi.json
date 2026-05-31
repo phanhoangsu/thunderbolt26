@@ -265,5 +265,25 @@
       "today": "Hôm nay",
       "yesterday": "Hôm qua"
     }
+  },
+  "chat": {
+    "title": "WEEKEND WARRIORS",
+    "subtitle": "Trợ lý app & trại 🏕️",
+    "dialogAria": "Weekend Warriors Chat",
+    "closeAria": "Đóng chat",
+    "openAria": "Mở Weekend Warriors",
+    "closeFabAria": "Đóng Weekend Warriors",
+    "sendAria": "Gửi tin nhắn",
+    "welcome": "Chào bạn! 🏕️ Mình là **WEEKEND WARRIORS** — trợ lý AI của app trại 2 ngày 1 đêm!\n\nMình có thể giúp bạn:\n• 📱 **Hướng dẫn sử dụng app** (XP, nhiệm vụ, huy hiệu, hành trình...)\n• 🗺️ **Lên kế hoạch chuyến đi** 2N1Đ (lịch trình, team building, chi phí)\n\nBạn cần hỗ trợ gì nhé? 🎒✨",
+    "typing": "WEEKEND WARRIORS đang lên kế hoạch...",
+    "placeholder": "Hỏi về lịch trình, ăn uống, team building...",
+    "sendError": "Không thể gửi tin nhắn.",
+    "genericError": "Có lỗi xảy ra. Vui lòng thử lại sau nhé!",
+    "quickPrompts": {
+      "guide": "Hướng dẫn sử dụng app 📱",
+      "xp": "Làm sao kiếm XP? 🎯",
+      "places": "Gợi ý 3 địa điểm gần Hà Nội 🌲",
+      "games": "Trò chơi team building vui nhộn 🎮"
+    }
   }
 }

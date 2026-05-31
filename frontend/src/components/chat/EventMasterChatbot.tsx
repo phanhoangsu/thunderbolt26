@@ -1,8 +1,9 @@
 "use client";
 
+import { useLanguage } from "@/context/LanguageContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, MessageCircle, Send, Sparkles, X } from "lucide-react";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 interface Message {
   id: string;
@@ -10,31 +11,49 @@ interface Message {
   content: string;
 }
 
-const WELCOME_MESSAGE: Message = {
-  id: "welcome",
-  role: "assistant",
-  content:
-    "Chào bạn! 🏕️ Mình là **WEEKEND WARRIORS** — trợ lý AI của app trại 2 ngày 1 đêm!\n\nMình có thể giúp bạn:\n• 📱 **Hướng dẫn sử dụng app** (XP, nhiệm vụ, huy hiệu, hành trình...)\n• 🗺️ **Lên kế hoạch chuyến đi** 2N1Đ (lịch trình, team building, chi phí)\n\nBạn cần hỗ trợ gì nhé? 🎒✨",
-};
-
-const QUICK_PROMPTS = [
-  "Hướng dẫn sử dụng app 📱",
-  "Làm sao kiếm XP? 🎯",
-  "Gợi ý 3 địa điểm gần Hà Nội 🌲",
-  "Trò chơi team building vui nhộn 🎮",
-];
+const QUICK_PROMPT_KEYS = [
+  "chat.quickPrompts.guide",
+  "chat.quickPrompts.xp",
+  "chat.quickPrompts.places",
+  "chat.quickPrompts.games",
+] as const;
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
 export function EventMasterChatbot() {
+  const { t, language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const welcomeMessage = useMemo(
+    (): Message => ({
+      id: "welcome",
+      role: "assistant",
+      content: t("chat.welcome"),
+    }),
+    [t],
+  );
+
+  const quickPrompts = useMemo(
+    () => QUICK_PROMPT_KEYS.map((key) => t(key)),
+    [t],
+  );
+
+  useEffect(() => {
+    setMessages((prev) => {
+      const onlyWelcome =
+        prev.length === 0 ||
+        (prev.length === 1 && prev[0].id === "welcome");
+      if (onlyWelcome) return [welcomeMessage];
+      return prev;
+    });
+  }, [welcomeMessage]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -69,13 +88,13 @@ export function EventMasterChatbot() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history }),
+        body: JSON.stringify({ messages: history, language }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Không thể gửi tin nhắn.");
+        throw new Error(data.error || t("chat.sendError"));
       }
 
       setMessages((prev) => [
@@ -95,7 +114,7 @@ export function EventMasterChatbot() {
           content:
             error instanceof Error
               ? `⚠️ ${error.message}`
-              : "⚠️ Có lỗi xảy ra. Vui lòng thử lại sau nhé!",
+              : `⚠️ ${t("chat.genericError")}`,
         },
       ]);
     } finally {
@@ -126,7 +145,7 @@ export function EventMasterChatbot() {
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="event-master-chat__panel"
             role="dialog"
-            aria-label="WEKEND WARRIORS Chat"
+            aria-label={t("chat.dialogAria")}
           >
             <header className="event-master-chat__header">
               <div className="event-master-chat__header-info">
@@ -134,9 +153,9 @@ export function EventMasterChatbot() {
                   <Sparkles size={20} />
                 </div>
                 <div>
-                  <h3 className="event-master-chat__title">WEKEND WARRIORS</h3>
+                  <h3 className="event-master-chat__title">{t("chat.title")}</h3>
                   <p className="event-master-chat__subtitle">
-                    Trợ lý app & trại 🏕️
+                    {t("chat.subtitle")}
                   </p>
                 </div>
               </div>
@@ -144,7 +163,7 @@ export function EventMasterChatbot() {
                 type="button"
                 className="event-master-chat__close"
                 onClick={() => setIsOpen(false)}
-                aria-label="Đóng chat"
+                aria-label={t("chat.closeAria")}
               >
                 <X size={18} />
               </button>
@@ -184,7 +203,7 @@ export function EventMasterChatbot() {
                   <span className="event-master-chat__bubble-icon">🏕️</span>
                   <div className="event-master-chat__typing">
                     <Loader2 size={16} className="event-master-chat__spinner" />
-                    <span>WEKEND WARRIORS đang lên kế hoạch...</span>
+                    <span>{t("chat.typing")}</span>
                   </div>
                 </div>
               )}
@@ -194,7 +213,7 @@ export function EventMasterChatbot() {
 
             {!isLoading && messages.length <= 1 && (
               <div className="event-master-chat__quick-prompts">
-                {QUICK_PROMPTS.map((prompt) => (
+                {quickPrompts.map((prompt) => (
                   <button
                     key={prompt}
                     type="button"
@@ -216,7 +235,7 @@ export function EventMasterChatbot() {
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Hỏi về lịch trình, ăn uống, team building..."
+                placeholder={t("chat.placeholder")}
                 rows={1}
                 disabled={isLoading}
                 className="event-master-chat__input"
@@ -225,7 +244,7 @@ export function EventMasterChatbot() {
                 type="submit"
                 disabled={!input.trim() || isLoading}
                 className="event-master-chat__send"
-                aria-label="Gửi tin nhắn"
+                aria-label={t("chat.sendAria")}
               >
                 <Send size={18} />
               </button>
@@ -240,7 +259,7 @@ export function EventMasterChatbot() {
         onClick={() => setIsOpen((prev) => !prev)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        aria-label={isOpen ? "Đóng WEKEND WARRIORS" : "Mở WEKEND WARRIORS"}
+        aria-label={isOpen ? t("chat.closeFabAria") : t("chat.openAria")}
         aria-expanded={isOpen}
       >
         <AnimatePresence mode="wait">
