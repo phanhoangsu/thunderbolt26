@@ -1,0 +1,290 @@
+{
+  "common": {
+    "appName": "WEKEND WARRIORS",
+    "tagline": "More than a trip ✦ Hành trình trưởng thành",
+    "back": "Quay lại",
+    "guest": "khách",
+    "day": "Ngày",
+    "loading": "Đang tải...",
+    "mainNavAria": "Điều hướng chính",
+    "expandMenuAria": "Menu mở rộng"
+  },
+  "sidebar": {
+    "mainMenu": "MENU CHÍNH",
+    "exploreMore": "KHÁM PHÁ THÊM"
+  },
+  "navigation": {
+    "home": "Trang chủ",
+    "profile": "Hồ sơ",
+    "journey": "Hành trình",
+    "missions": "Nhiệm vụ",
+    "badges": "Thành tích",
+    "memories": "Ký ức",
+    "parent": "Phụ huynh",
+    "growth": "Phát triển",
+    "promise": "Cam kết tương lai"
+  },
+  "welcome": {
+    "brandWeekend": "WEEKEND",
+    "brandWarriors": "WARRIORS",
+    "tagline": "Trại ngoài trời cho teen",
+    "panelTitle": "Bắt đầu hành trình",
+    "register": "Đăng ký",
+    "login": "Đăng nhập"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "logout": "Đăng xuất",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "name": "Họ tên",
+    "loginSubtitle": "Đăng nhập tài khoản",
+    "loginHint": "Tiếp tục hành trình trưởng thành của bạn",
+    "loginRequired": "Bạn cần đăng nhập để truy cập phần này.",
+    "registerTitle": "Tạo tài khoản",
+    "registerSubtitle": "Bắt đầu hành trình của bạn",
+    "emailPlaceholder": "Nhập email của bạn",
+    "namePlaceholder": "Nguyễn Văn A",
+    "showPassword": "Hiện mật khẩu",
+    "hidePassword": "Ẩn mật khẩu",
+    "passwordMin": "Mật khẩu cần ít nhất 6 ký tự",
+    "passwordMinError": "Mật khẩu phải có ít nhất 6 ký tự.",
+    "passwordMismatch": "Mật khẩu xác nhận không khớp.",
+    "passwordMismatchHint": "Mật khẩu không khớp",
+    "loggingIn": "Đang đăng nhập...",
+    "registering": "Đang tạo...",
+    "noAccount": "Chưa có tài khoản?",
+    "registerNow": "Đăng ký ngay",
+    "haveAccount": "Đã có tài khoản?",
+    "loginFailed": "Đăng nhập thất bại.",
+    "registerFailed": "Đăng ký thất bại.",
+    "serverError": "Không kết nối được server.",
+    "emailTaken": "Email đã được sử dụng.",
+    "createAccount": "Tạo tài khoản"
+  },
+  "home": {
+    "title": "Trang chủ",
+    "subtitle": "Theo dõi hành trình trưởng thành",
+    "hello": "Xin chào",
+    "viewProfile": "Xem hồ sơ",
+    "campDay": "Ngày trại",
+    "missionsStat": "Nhiệm vụ",
+    "badgesStat": "Huy hiệu",
+    "explore": "Khám phá",
+    "messageLabel": "Thông điệp",
+    "messageBody": "WEKEND WARRIORS giúp thanh thiếu niên trưởng thành qua",
+    "messageHighlight": "trải nghiệm ngoài trời thật",
+    "messageEnd": "— không chỉ thời gian trên màn hình.",
+    "journeyDesc": "Bản đồ 2 ngày",
+    "missionsDesc": "QR & thử thách",
+    "badgesDesc": "XP & huy hiệu",
+    "memoriesDesc": "Nhật ký ảnh",
+    "growthDesc": "Biểu đồ kỹ năng",
+    "parentDesc": "Báo cáo tiến độ",
+    "promiseDesc": "Lời hứa tương lai"
+  },
+  "profile": {
+    "title": "Hồ sơ của bạn",
+    "subtitle": "RPG Profile · Tiến độ cá nhân",
+    "loginPrompt": "Vui lòng đăng nhập để xem hồ sơ cá nhân.",
+    "guestBanner": "Bạn đang xem thử ·",
+    "experience": "Kinh nghiệm",
+    "currentStats": "Chỉ số hiện tại",
+    "personalMission": "Nhiệm vụ cá nhân",
+    "personalMissionText": "Làm quen và nói chuyện với 3 người bạn mới"
+  },
+  "journey": {
+    "title": "Hành trình của bạn",
+    "subtitle": "Bản đồ phiêu lưu 2 ngày 1 đêm",
+    "loadingMap": "Đang tải bản đồ...",
+    "progressLabel": "Tiến độ tổng",
+    "stages": "Chặng",
+    "current": "Hiện tại",
+    "timelineTitle": "Lộ trình các chặng",
+    "goMission": "Mở nhiệm vụ",
+    "lockedHint": "Hoàn thành chặng trước để mở khóa",
+    "statusCompleted": "Đã hoàn thành",
+    "statusActive": "Đang thực hiện",
+    "statusLocked": "Chưa mở",
+    "dayProgress": "{done}/{total} xong",
+    "points": {
+      "start": { "name": "Khởi Đầu", "subtitle": "Check-in" },
+      "forest": { "name": "Điểm Rừng", "subtitle": "Nhiệm vụ QR" },
+      "river": { "name": "Điểm Sông", "subtitle": "Thử thách nhóm" },
+      "kitchen": { "name": "Bếp Trại", "subtitle": "Nấu ăn nhóm" },
+      "sunset": { "name": "Đồi Hoàng Hôn", "subtitle": "Suy ngẫm" },
+      "sunrise": { "name": "Bình Minh", "subtitle": "Thể dục & check-in" },
+      "obstacle": { "name": "Vượt Chướng Ngại", "subtitle": "Thử thách nhóm" },
+      "deep-forest": { "name": "Rừng Sâu", "subtitle": "Nhiệm vụ QR" },
+      "circle": { "name": "Circle Time", "subtitle": "Chia sẻ nhóm" },
+      "boss": { "name": "Trại Cuối", "subtitle": "Thử thách Boss" }
+    }
+  },
+  "missions": {
+    "requirements": "Yêu cầu",
+    "start": "Bắt đầu nhiệm vụ",
+    "submitProof": "Nộp minh chứng",
+    "uploadPhoto": "Chụp / tải file lên",
+    "uploadAudio": "Ghi âm 3 âm thanh",
+    "uploadedFiles": "Đã tải lên ({count})",
+    "removeFile": "Xóa file",
+    "submit": "Nộp nhiệm vụ",
+    "qrMission": "Nhiệm vụ QR",
+    "quizTitle": "Câu hỏi nhanh",
+    "wrongAnswer": "Chưa đúng — hãy thử đáp án khác.",
+    "quizProgress": "Đúng {correct}/{total} · cần {pass} câu để qua",
+    "quizPassed": "Đã qua! Đúng {pass}/5 câu — được cộng điểm ✓",
+    "questionNum": "Câu {num}",
+    "photoUploadTitle": "Chụp / tải ảnh",
+    "photoUploadHint": "Chụp ảnh hoặc tải file lên làm minh chứng tại địa điểm này.",
+    "photoComplete": "Đã tải ảnh — hoàn thành yêu cầu ✓"
+  },
+  "badges": {
+    "title": "Thành tích của bạn",
+    "subtitle": "XP & huy hiệu",
+    "totalXp": "Tổng XP",
+    "unlocked": "Huy hiệu · {count}/{total} đã mở",
+    "recentActivity": "Hoạt động gần đây"
+  },
+  "memories": {
+    "title": "Ký ức của bạn",
+    "reflectionTitle": "Hôm nay bạn học được gì?",
+    "reflectionPlaceholder": "Viết suy ngẫm của bạn...",
+    "defaultReflection": "Tôi học được rằng làm việc nhóm giúp tôi mạnh mẽ hơn.",
+    "items": {
+      "1": {
+        "title": "Điểm Rừng",
+        "location": "Forest Point",
+        "date": "Ngày 1 · 14:30",
+        "note": "Nghe tiếng suối và chim hót."
+      },
+      "2": {
+        "title": "Nấu ăn nhóm",
+        "location": "Team Kitchen",
+        "date": "Ngày 1 · 18:00",
+        "note": "Cùng nhau nấu bữa tối."
+      },
+      "3": {
+        "title": "Hoàng hôn",
+        "location": "Sunset Hill",
+        "date": "Ngày 1 · 17:45",
+        "note": "Suy ngẫm về một ngày đầy thử thách."
+      },
+      "4": {
+        "title": "Trại cuối",
+        "location": "Final Camp",
+        "date": "Ngày 2 · 20:00",
+        "note": "Đêm lửa trại cuối cùng."
+      }
+    }
+  },
+  "parent": {
+    "title": "Báo cáo trưởng thành của {name}",
+    "totalXp": "Tổng XP",
+    "missions": "Nhiệm vụ",
+    "badges": "Huy hiệu",
+    "teamActivities": "Hoạt động nhóm",
+    "skillChart": "Biểu đồ kỹ năng",
+    "coachNote": "Ghi chú huấn luyện viên"
+  },
+  "growth": {
+    "title": "Sự phát triển của bạn",
+    "strongest": "Kỹ năng mạnh nhất:",
+    "needsImprovement": "Cần cải thiện:"
+  },
+  "charts": {
+    "before": "Trước",
+    "after": "Sau"
+  },
+  "promise": {
+    "title": "Cam kết tương lai",
+    "intro": "Sau hành trình này, tôi hứa sẽ…",
+    "placeholder": "Viết lời hứa của bạn ở đây…",
+    "signature": "Chữ ký",
+    "save": "Lưu cam kết",
+    "saved": "Đã lưu ✓",
+    "share": "Chia sẻ cam kết",
+    "footerLine1": "Hành trình của bạn chưa kết thúc.",
+    "footerLine2": "Đây là khởi đầu mới."
+  },
+  "skills": {
+    "confidence": "Tự tin",
+    "communication": "Giao tiếp",
+    "teamwork": "Làm việc nhóm",
+    "problemSolving": "Giải quyết vấn đề",
+    "creativity": "Sáng tạo",
+    "leadership": "Lãnh đạo",
+    "selfControl": "Tự kiểm soát",
+    "timeManagement": "Quản lý thời gian"
+  },
+  "mock": {
+    "personalMission": "Kết bạn với 3 người mới.",
+    "coachNote": "Hoàng Sử làm việc nhóm rất tốt và tự tin hơn rõ rệt trong các thử thách ngoài trời. Đây là tiến bộ thực sự đáng khen.",
+    "mission": {
+      "title": "Điểm Rừng",
+      "type": "Nhiệm vụ QR",
+      "description": "Tìm 3 âm thanh của thiên nhiên và ghi lại.",
+      "badgeReward": "Huy hiệu Thiên Nhiên",
+      "req1": "Tìm 3 âm thanh khác nhau",
+      "req2": "Chụp 1 ảnh tại địa điểm này",
+      "req3": "Trả lời 1 câu hỏi suy ngẫm",
+      "req4": "Hoàn thành cùng đội của bạn",
+      "req5": "Giữ rừng sạch sẽ (không để lại rác)"
+    },
+    "badges": {
+      "explorer": "Nhà Thám Hiểm",
+      "teamPlayer": "Người Chơi Nhóm",
+      "natureLover": "Yêu Thiên Nhiên",
+      "braveStarter": "Khởi Đầu Dũng Cảm",
+      "problemSolver": "Giải Quyết Vấn Đề",
+      "campHelper": "Người Giúp Trại",
+      "goodListener": "Lắng Nghe Tốt",
+      "youngLeader": "Lãnh Đạo Trẻ",
+      "timeMaster": "Quản Lý Thời Gian",
+      "realLifeWarrior": "Chiến Binh Thực Tế"
+    },
+    "achievements": {
+      "a1": "Hoàn thành nhiệm vụ Điểm Rừng",
+      "a2": "Tham gia nấu ăn nhóm",
+      "a3": "Giúp đỡ đồng đội"
+    },
+    "promiseExamples": {
+      "e1": "Dành nhiều thời gian ngoài trời hơn",
+      "e2": "Nói chuyện nhiều hơn với bạn bè và gia đình",
+      "e3": "Kiểm soát thời gian chơi game tốt hơn",
+      "e4": "Tham gia nhiều hoạt động đời thực hơn",
+      "e5": "Giúp đội khi đội cần mình"
+    },
+    "growthFeedback": {
+      "strongest": "Làm việc nhóm",
+      "needsImprovement": "Giao tiếp"
+    },
+    "dates": {
+      "today": "Hôm nay",
+      "yesterday": "Hôm qua"
+    }
+  },
+  "chat": {
+    "title": "WEEKEND WARRIORS",
+    "subtitle": "Trợ lý app & trại 🏕️",
+    "dialogAria": "Weekend Warriors Chat",
+    "closeAria": "Đóng chat",
+    "openAria": "Mở Weekend Warriors",
+    "closeFabAria": "Đóng Weekend Warriors",
+    "sendAria": "Gửi tin nhắn",
+    "welcome": "Chào bạn! 🏕️ Mình là **WEEKEND WARRIORS** — trợ lý AI của app trại 2 ngày 1 đêm!\n\nMình có thể giúp bạn:\n• 📱 **Hướng dẫn sử dụng app** (XP, nhiệm vụ, huy hiệu, hành trình...)\n• 🗺️ **Lên kế hoạch chuyến đi** 2N1Đ (lịch trình, team building, chi phí)\n\nBạn cần hỗ trợ gì nhé? 🎒✨",
+    "typing": "WEEKEND WARRIORS đang lên kế hoạch...",
+    "placeholder": "Hỏi về lịch trình, ăn uống, team building...",
+    "sendError": "Không thể gửi tin nhắn.",
+    "genericError": "Có lỗi xảy ra. Vui lòng thử lại sau nhé!",
+    "quickPrompts": {
+      "guide": "Hướng dẫn sử dụng app 📱",
+      "xp": "Làm sao kiếm XP? 🎯",
+      "places": "Gợi ý 3 địa điểm gần Hà Nội 🌲",
+      "games": "Trò chơi team building vui nhộn 🎮",
+      "creator": "Ai tạo ra bạn? ⚡"
+    }
+  }
+}

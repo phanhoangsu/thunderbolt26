@@ -1,0 +1,290 @@
+{
+  "common": {
+    "appName": "WEKEND WARRIORS",
+    "tagline": "More than a trip ✦ Your growth journey",
+    "back": "Back",
+    "guest": "guest",
+    "day": "Day",
+    "loading": "Loading...",
+    "mainNavAria": "Main navigation",
+    "expandMenuAria": "More menu"
+  },
+  "sidebar": {
+    "mainMenu": "MAIN MENU",
+    "exploreMore": "EXPLORE MORE"
+  },
+  "navigation": {
+    "home": "Home",
+    "profile": "Profile",
+    "journey": "Journey",
+    "missions": "Missions",
+    "badges": "Achievements",
+    "memories": "Memories",
+    "parent": "Parents",
+    "growth": "Growth",
+    "promise": "Future promise"
+  },
+  "welcome": {
+    "brandWeekend": "WEEKEND",
+    "brandWarriors": "WARRIORS",
+    "tagline": "Outdoor camp for teens",
+    "panelTitle": "Start your journey",
+    "register": "Sign up",
+    "login": "Log in"
+  },
+  "auth": {
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "name": "Full name",
+    "loginSubtitle": "Sign in to your account",
+    "loginHint": "Continue your growth journey",
+    "loginRequired": "Please sign in to access this section.",
+    "registerTitle": "Create account",
+    "registerSubtitle": "Start your journey",
+    "emailPlaceholder": "Enter your email",
+    "namePlaceholder": "John Doe",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "passwordMin": "Password must be at least 6 characters",
+    "passwordMinError": "Password must be at least 6 characters.",
+    "passwordMismatch": "Passwords do not match.",
+    "passwordMismatchHint": "Passwords do not match",
+    "loggingIn": "Signing in...",
+    "registering": "Creating account...",
+    "noAccount": "Don't have an account?",
+    "registerNow": "Sign up now",
+    "haveAccount": "Already have an account?",
+    "loginFailed": "Login failed.",
+    "registerFailed": "Registration failed.",
+    "serverError": "Could not connect to server.",
+    "emailTaken": "Email is already in use.",
+    "createAccount": "Create account"
+  },
+  "home": {
+    "title": "Home",
+    "subtitle": "Track your growth journey",
+    "hello": "Hello",
+    "viewProfile": "View profile",
+    "campDay": "Camp day",
+    "missionsStat": "Missions",
+    "badgesStat": "Badges",
+    "explore": "Explore",
+    "messageLabel": "Message",
+    "messageBody": "WEKEND WARRIORS helps teens grow through",
+    "messageHighlight": "real outdoor experiences",
+    "messageEnd": "— not just screen time.",
+    "journeyDesc": "2-day map",
+    "missionsDesc": "QR & challenges",
+    "badgesDesc": "XP & badges",
+    "memoriesDesc": "Photo journal",
+    "growthDesc": "Skill charts",
+    "parentDesc": "Progress report",
+    "promiseDesc": "Future promise"
+  },
+  "profile": {
+    "title": "Your profile",
+    "subtitle": "RPG Profile · Personal progress",
+    "loginPrompt": "Please log in to view your profile.",
+    "guestBanner": "You're browsing as guest ·",
+    "experience": "Experience",
+    "currentStats": "Current stats",
+    "personalMission": "Personal mission",
+    "personalMissionText": "Meet and talk with 3 new friends"
+  },
+  "journey": {
+    "title": "Your journey",
+    "subtitle": "2-day, 1-night adventure map",
+    "loadingMap": "Loading map...",
+    "progressLabel": "Overall progress",
+    "stages": "Stages",
+    "current": "Current",
+    "timelineTitle": "Stage timeline",
+    "goMission": "Open mission",
+    "lockedHint": "Complete previous stages to unlock",
+    "statusCompleted": "Completed",
+    "statusActive": "In progress",
+    "statusLocked": "Locked",
+    "dayProgress": "{done}/{total} done",
+    "points": {
+      "start": { "name": "Camp Start", "subtitle": "Check-in" },
+      "forest": { "name": "Forest Point", "subtitle": "QR Mission" },
+      "river": { "name": "River Point", "subtitle": "Team challenge" },
+      "kitchen": { "name": "Camp Kitchen", "subtitle": "Group cooking" },
+      "sunset": { "name": "Sunset Hill", "subtitle": "Reflection" },
+      "sunrise": { "name": "Sunrise", "subtitle": "Morning check-in" },
+      "obstacle": { "name": "Obstacle Course", "subtitle": "Team challenge" },
+      "deep-forest": { "name": "Deep Forest", "subtitle": "QR Mission" },
+      "circle": { "name": "Circle Time", "subtitle": "Group sharing" },
+      "boss": { "name": "Final Camp", "subtitle": "Boss challenge" }
+    }
+  },
+  "missions": {
+    "requirements": "Requirements",
+    "start": "Start mission",
+    "submitProof": "Submit proof",
+    "uploadPhoto": "Take photo / upload file",
+    "uploadAudio": "Record 3 sounds",
+    "uploadedFiles": "Uploaded ({count})",
+    "removeFile": "Remove file",
+    "submit": "Submit mission",
+    "qrMission": "QR Mission",
+    "quizTitle": "Quick check",
+    "wrongAnswer": "Not quite — try another answer.",
+    "quizProgress": "{correct}/{total} correct · need {pass} to pass",
+    "quizPassed": "Passed! {pass}/5 correct — points earned ✓",
+    "questionNum": "Question {num}",
+    "photoUploadTitle": "Upload photo",
+    "photoUploadHint": "Take a photo or upload any file as proof for this location.",
+    "photoComplete": "Photo uploaded — requirement completed ✓"
+  },
+  "badges": {
+    "title": "Your achievements",
+    "subtitle": "XP & badges",
+    "totalXp": "Total XP",
+    "unlocked": "Badges · {count}/{total} unlocked",
+    "recentActivity": "Recent activity"
+  },
+  "memories": {
+    "title": "Your memories",
+    "reflectionTitle": "What did you learn today?",
+    "reflectionPlaceholder": "Write your reflection...",
+    "defaultReflection": "I learned that teamwork makes me stronger.",
+    "items": {
+      "1": {
+        "title": "Forest Point",
+        "location": "Forest Point",
+        "date": "Day 1 · 2:30 PM",
+        "note": "Heard the stream and birds singing."
+      },
+      "2": {
+        "title": "Group cooking",
+        "location": "Team Kitchen",
+        "date": "Day 1 · 6:00 PM",
+        "note": "Cooked dinner together as a team."
+      },
+      "3": {
+        "title": "Sunset",
+        "location": "Sunset Hill",
+        "date": "Day 1 · 5:45 PM",
+        "note": "Reflected on a challenging day."
+      },
+      "4": {
+        "title": "Final Camp",
+        "location": "Final Camp",
+        "date": "Day 2 · 8:00 PM",
+        "note": "The last campfire night."
+      }
+    }
+  },
+  "parent": {
+    "title": "Growth report for {name}",
+    "totalXp": "Total XP",
+    "missions": "Missions",
+    "badges": "Badges",
+    "teamActivities": "Team activities",
+    "skillChart": "Skill chart",
+    "coachNote": "Coach note"
+  },
+  "growth": {
+    "title": "Your growth",
+    "strongest": "Strongest skill:",
+    "needsImprovement": "Needs improvement:"
+  },
+  "charts": {
+    "before": "Before",
+    "after": "After"
+  },
+  "promise": {
+    "title": "Future promise",
+    "intro": "After this journey, I promise to…",
+    "placeholder": "Write your promise here…",
+    "signature": "Signature",
+    "save": "Save promise",
+    "saved": "Saved ✓",
+    "share": "Share promise",
+    "footerLine1": "Your journey isn't over.",
+    "footerLine2": "This is a new beginning."
+  },
+  "skills": {
+    "confidence": "Confidence",
+    "communication": "Communication",
+    "teamwork": "Teamwork",
+    "problemSolving": "Problem solving",
+    "creativity": "Creativity",
+    "leadership": "Leadership",
+    "selfControl": "Self-control",
+    "timeManagement": "Time management"
+  },
+  "mock": {
+    "personalMission": "Make 3 new friends.",
+    "coachNote": "Hoàng Sử works very well in teams and is noticeably more confident in outdoor challenges. This is real, commendable progress.",
+    "mission": {
+      "title": "Forest Point",
+      "type": "QR Mission",
+      "description": "Find 3 nature sounds and record them.",
+      "badgeReward": "Nature Badge",
+      "req1": "Find 3 different sounds",
+      "req2": "Take 1 photo at this location",
+      "req3": "Answer 1 reflection question",
+      "req4": "Complete with your team",
+      "req5": "Keep the forest clean (leave no trace)"
+    },
+    "badges": {
+      "explorer": "Explorer",
+      "teamPlayer": "Team Player",
+      "natureLover": "Nature Lover",
+      "braveStarter": "Brave Starter",
+      "problemSolver": "Problem Solver",
+      "campHelper": "Camp Helper",
+      "goodListener": "Good Listener",
+      "youngLeader": "Young Leader",
+      "timeMaster": "Time Master",
+      "realLifeWarrior": "Real-Life Warrior"
+    },
+    "achievements": {
+      "a1": "Completed Forest Point mission",
+      "a2": "Joined group cooking",
+      "a3": "Helped a teammate"
+    },
+    "promiseExamples": {
+      "e1": "Spend more time outdoors",
+      "e2": "Talk more with friends and family",
+      "e3": "Manage gaming time better",
+      "e4": "Join more real-life activities",
+      "e5": "Help my team when they need me"
+    },
+    "growthFeedback": {
+      "strongest": "Teamwork",
+      "needsImprovement": "Communication"
+    },
+    "dates": {
+      "today": "Today",
+      "yesterday": "Yesterday"
+    }
+  },
+  "chat": {
+    "title": "WEEKEND WARRIORS",
+    "subtitle": "App & camp assistant 🏕️",
+    "dialogAria": "Weekend Warriors Chat",
+    "closeAria": "Close chat",
+    "openAria": "Open Weekend Warriors",
+    "closeFabAria": "Close Weekend Warriors",
+    "sendAria": "Send message",
+    "welcome": "Hey there! 🏕️ I'm **WEEKEND WARRIORS** — the AI assistant for the 2-day, 1-night camp app!\n\nI can help you with:\n• 📱 **How to use the app** (XP, missions, badges, journey...)\n• 🗺️ **Trip planning** for 2D1N camps (itinerary, team building, budget)\n\nWhat do you need help with? 🎒✨",
+    "typing": "WEEKEND WARRIORS is planning...",
+    "placeholder": "Ask about itinerary, food, team building...",
+    "sendError": "Could not send message.",
+    "genericError": "Something went wrong. Please try again!",
+    "quickPrompts": {
+      "guide": "How to use the app 📱",
+      "xp": "How do I earn XP? 🎯",
+      "places": "Suggest 3 places near Hanoi 🌲",
+      "games": "Fun team building games 🎮",
+      "creator": "Who created you? ⚡"
+    }
+  }
+}
