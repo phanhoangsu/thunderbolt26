@@ -9,7 +9,20 @@ export interface ChatMessage {
 export async function POST(request: NextRequest) {
   const apiKey = process.env.GROQ_API_KEY?.trim();
 
+  // Log whether an API key is present (boolean) to aid debugging without printing secrets
+  console.error("GROQ_API_KEY set:", !!process.env.GROQ_API_KEY);
+
+  // If the key is missing, in development return a safe mock reply so the chat UI can be tested locally.
   if (!apiKey) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "GROQ_API_KEY not set — returning mock reply for development. Add GROQ_API_KEY to .env.local to test the real AI.",
+      );
+      return NextResponse.json({
+        reply: "Xin chào! Đây là phản hồi giả cho môi trường phát triển.",
+      });
+    }
+
     return NextResponse.json(
       {
         error:
