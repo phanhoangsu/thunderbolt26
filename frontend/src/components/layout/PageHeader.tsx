@@ -42,11 +42,11 @@ export function PageHeader({
           <h1 className="page-header__title">{title}</h1>
           {subtitle && <p className="page-header__subtitle">{subtitle}</p>}
         </div>
-        {showLanguage ? (
+        {/* {showLanguage ? (
           <LanguageSwitcher className="hidden shrink-0 origin-right scale-90 lg:flex" />
         ) : (
           <div className="w-11" />
-        )}
+        )} */}
       </div>
     </header>
   );

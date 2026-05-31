@@ -13,9 +13,19 @@ import {
   loadSession,
   saveSession,
 } from "@/lib/auth-storage";
-import { badges as defaultBadges, checkpoints as defaultCheckpoints } from "@/lib/mock-data";
-import { defaultAppState, loadState, saveState } from "@/lib/storage";
-import type { AppState, AuthSession, AuthUser, Badge, Checkpoint, ScreenId } from "@/lib/types";
+import {
+  badges as defaultBadges,
+  checkpoints as defaultCheckpoints,
+} from "@/lib/mock-data";
+import { defaultAppState, resolveUserAppState, saveStateForUser, applyBadgesFromState, createFreshCheckpoints } from "@/lib/storage";
+import type {
+  AppState,
+  AuthSession,
+  AuthUser,
+  Badge,
+  Checkpoint,
+  ScreenId,
+} from "@/lib/types";
 import {
   createContext,
   useCallback,
@@ -45,7 +55,11 @@ interface AppContextValue extends AppState {
   navigateTo: (s: ScreenId, options?: { replace?: boolean }) => void;
   goBack: () => void;
   login: (email: string, password: string) => Promise<AuthResult>;
-  register: (name: string, email: string, password: string) => Promise<AuthResult>;
+  register: (
+    name: string,
+    email: string,
+    password: string,
+  ) => Promise<AuthResult>;
   logout: () => Promise<void>;
   startMission: () => void;
   submitMission: () => void;
@@ -76,22 +90,26 @@ function isProtectedScreen(s: ScreenId): boolean {
   return PROTECTED_SCREENS.includes(s);
 }
 
-function applyUserToProfile(state: AppState, user: AuthUser): AppState {
-  return {
-    ...state,
-    profile: {
-      ...state.profile,
-      name: user.name,
-      avatar: user.avatar,
-    },
-  };
+function applyUserState(
+  user: AuthUser,
+  userState: AppState,
+  setCheckpointsFn: (c: Checkpoint[]) => void,
+  setBadgesFn: (b: Badge[]) => void,
+) {
+  setCheckpointsFn(
+    userState.checkpoints?.length
+      ? userState.checkpoints
+      : createFreshCheckpoints(),
+  );
+  setBadgesFn(applyBadgesFromState(userState.badgesUnlocked));
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>(defaultAppState);
   const [screen, setScreen] = useState<ScreenId>("welcome");
   const [screenHistory, setScreenHistory] = useState<ScreenId[]>([]);
-  const [checkpoints, setCheckpoints] = useState<Checkpoint[]>(defaultCheckpoints);
+  const [checkpoints, setCheckpoints] =
+    useState<Checkpoint[]>(defaultCheckpoints);
   const [badges, setBadges] = useState<Badge[]>(defaultBadges);
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [loginRequired, setLoginRequired] = useState(false);
@@ -104,14 +122,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const isAuthenticated = !!authUser;
 
   useEffect(() => {
-    const saved = loadState();
-    setState(saved);
-    if (saved.checkpoints?.length) setCheckpoints(saved.checkpoints);
-
     const session = loadSession();
     if (session?.user) {
+      const userState = resolveUserAppState(session.user);
+      setState(userState);
+      applyUserState(session.user, userState, setCheckpoints, setBadges);
       setAuthUser(session.user);
-      setState((prev) => applyUserToProfile(saved, session.user));
       setScreen("home");
     }
 
@@ -136,15 +152,29 @@ export function AppProvider({ children }: { children: ReactNode }) {
             name: prev.profile.name,
             avatar: prev.profile.avatar,
             promise: prev.profile.promise,
+            xp: prev.profile.xp,
+            level: prev.profile.level,
+            levelNum: prev.profile.levelNum,
+            xpMax: prev.profile.xpMax,
           },
         }));
         setCheckpoints((prev) => {
           const merged = j as Checkpoint[];
           return prev.length
-            ? prev.map((cp) => merged.find((m) => m.id === cp.id) ?? cp)
+            ? prev.map((cp) => {
+                const apiCp = merged.find((m) => m.id === cp.id);
+                return apiCp ? { ...apiCp, status: cp.status } : cp;
+              })
             : merged;
         });
-        setBadges(b);
+        setBadges((prev) => {
+          const apiBadges = b as Badge[];
+          if (!prev.some((badge) => badge.unlocked)) return apiBadges;
+          return apiBadges.map((badge) => {
+            const saved = prev.find((p) => p.id === badge.id);
+            return saved ? { ...badge, unlocked: saved.unlocked } : badge;
+          });
+        });
       } catch {
         /* keep defaults */
       } finally {
@@ -156,8 +186,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [hydrated]);
 
   useEffect(() => {
-    if (hydrated) saveState({ ...state, checkpoints });
-  }, [state, checkpoints, hydrated]);
+    if (hydrated && authUser) {
+      saveStateForUser(authUser.id, { ...state, checkpoints });
+    }
+  }, [state, checkpoints, hydrated, authUser]);
 
   const setAuthSession = useCallback((user: AuthUser) => {
     const session: AuthSession = {
@@ -167,43 +199,59 @@ export function AppProvider({ children }: { children: ReactNode }) {
     saveSession(session);
     setAuthUser(user);
     setLoginRequired(false);
-    setState((prev) => applyUserToProfile(prev, user));
   }, []);
 
-  const login = useCallback(async (email: string, password: string): Promise<AuthResult> => {
-    const registered = loadRegisteredUsers();
-    const localUser = validateCredentials(email, password, registered);
+  const login = useCallback(
+    async (email: string, password: string): Promise<AuthResult> => {
+      const registered = loadRegisteredUsers();
+      const localUser = validateCredentials(email, password, registered);
 
-    if (localUser) {
-      setAuthSession(toAuthUser(localUser));
-      setScreenHistory([]);
-      setScreen("home");
-      return { success: true };
-    }
-
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        return { success: false, message: data.message ?? "Đăng nhập thất bại." };
+      if (localUser) {
+        const authUserData = toAuthUser(localUser);
+        const userState = resolveUserAppState(authUserData);
+        setState(userState);
+        applyUserState(authUserData, userState, setCheckpoints, setBadges);
+        setAuthSession(authUserData);
+        setScreenHistory([]);
+        setScreen("home");
+        return { success: true };
       }
 
-      setAuthSession(data.user);
-      setScreenHistory([]);
-      setScreen("home");
-      return { success: true };
-    } catch {
-      return { success: false, message: "Không kết nối được server." };
-    }
-  }, [setAuthSession]);
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          return {
+            success: false,
+            message: data.message ?? "Đăng nhập thất bại.",
+          };
+        }
+
+        setAuthSession(data.user);
+        const userState = resolveUserAppState(data.user);
+        setState(userState);
+        applyUserState(data.user, userState, setCheckpoints, setBadges);
+        setScreenHistory([]);
+        setScreen("home");
+        return { success: true };
+      } catch {
+        return { success: false, message: "Không kết nối được server." };
+      }
+    },
+    [setAuthSession],
+  );
 
   const register = useCallback(
-    async (name: string, email: string, password: string): Promise<AuthResult> => {
+    async (
+      name: string,
+      email: string,
+      password: string,
+    ): Promise<AuthResult> => {
       const registered = loadRegisteredUsers();
 
       if (emailExists(email, registered)) {
@@ -227,12 +275,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
         /* client storage is source of truth */
       }
 
-      setAuthSession(toAuthUser(newUser));
+      const authUserData = toAuthUser(newUser);
+      const userState = resolveUserAppState(authUserData, { isNewUser: true });
+      saveStateForUser(authUserData.id, userState);
+      setState(userState);
+      applyUserState(authUserData, userState, setCheckpoints, setBadges);
+      setAuthSession(authUserData);
       setScreenHistory([]);
       setScreen("home");
       return { success: true };
     },
-    [setAuthSession]
+    [setAuthSession],
   );
 
   const logout = useCallback(async () => {
@@ -280,11 +333,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (typeof window !== "undefined") {
         window.scrollTo({ top: 0, behavior: "smooth" });
         // Also scroll the inner content container
-        document.querySelector(".app-main__content")?.scrollTo({ top: 0, behavior: "smooth" });
-        document.querySelector(".screen-page")?.scrollTo({ top: 0, behavior: "smooth" });
+        document
+          .querySelector(".app-main__content")
+          ?.scrollTo({ top: 0, behavior: "smooth" });
+        document
+          .querySelector(".screen-page")
+          ?.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
-    [screen, authUser]
+    [screen, authUser],
   );
 
   const goBack = useCallback(() => {
@@ -323,12 +380,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         cp.id === "forest"
           ? { ...cp, status: "completed" as const }
           : cp.id === "qr"
-            ? { ...cp, status: "active" as const }
-            : cp
-      )
+          ? { ...cp, status: "active" as const }
+          : cp,
+      ),
     );
     setBadges((prev) =>
-      prev.map((b) => (b.id === "nature-lover" ? { ...b, unlocked: true } : b))
+      prev.map((b) => (b.id === "nature-lover" ? { ...b, unlocked: true } : b)),
     );
     setTimeout(() => setShowXpToast(false), 2500);
   };
@@ -341,12 +398,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
         if (next && next.status === "locked") {
           setTimeout(() => {
             setCheckpoints((p) =>
-              p.map((c) => (c.id === next.id ? { ...c, status: "active" as const } : c))
+              p.map((c) =>
+                c.id === next.id ? { ...c, status: "active" as const } : c,
+              ),
             );
           }, 0);
         }
         return { ...cp, status: "completed" as const };
-      })
+      }),
     );
   };
 

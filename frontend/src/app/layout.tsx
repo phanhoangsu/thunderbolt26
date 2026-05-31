@@ -4,7 +4,7 @@ import "./pro-theme.css";
 import { ClientWrapper } from "./client-wrapper";
 
 export const metadata: Metadata = {
-  title: "Weekend Warriors — Your Growth Journey",
+  title: "WEKEND WARRIORS — Your Growth Journey",
   description:
     "Companion app for a 2-day, 1-night camp program helping teens track their journey, build skills, and save memories.",
 };
