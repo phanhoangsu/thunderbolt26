@@ -945,6 +945,21 @@ body {
   background: rgba(255, 255, 255, 0.25);
 }
 
+.event-master-chat__lang {
+  padding: 8px 14px 4px;
+  background: linear-gradient(180deg, #f0f4f1 0%, #f8faf7 100%);
+  border-bottom: var(--ww-border);
+  display: flex;
+  justify-content: center;
+}
+
+.event-master-chat__lang-switcher {
+  width: 100%;
+  justify-content: center;
+  border-color: rgba(11, 61, 46, 0.12);
+  background: white;
+}
+
 .event-master-chat__messages {
   flex: 1;
   overflow-y: auto;

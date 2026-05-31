@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, MessageCircle, Send, Sparkles, X } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
@@ -14,6 +15,7 @@ interface Message {
 const QUICK_PROMPT_KEYS = [
   "chat.quickPrompts.guide",
   "chat.quickPrompts.xp",
+  "chat.quickPrompts.creator",
   "chat.quickPrompts.places",
   "chat.quickPrompts.games",
 ] as const;
@@ -47,13 +49,14 @@ export function EventMasterChatbot() {
 
   useEffect(() => {
     setMessages((prev) => {
-      const onlyWelcome =
-        prev.length === 0 ||
-        (prev.length === 1 && prev[0].id === "welcome");
-      if (onlyWelcome) return [welcomeMessage];
+      if (prev.length === 0) return [welcomeMessage];
+      if (prev.length === 1 && prev[0].id === "welcome") return [welcomeMessage];
+      if (prev[0]?.id === "welcome") {
+        return [welcomeMessage, ...prev.slice(1)];
+      }
       return prev;
     });
-  }, [welcomeMessage]);
+  }, [welcomeMessage, language]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -168,6 +171,10 @@ export function EventMasterChatbot() {
                 <X size={18} />
               </button>
             </header>
+
+            <div className="event-master-chat__lang">
+              <LanguageSwitcher className="event-master-chat__lang-switcher" />
+            </div>
 
             <div className="event-master-chat__messages">
               {messages.map((message) => (
